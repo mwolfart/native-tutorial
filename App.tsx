@@ -70,7 +70,7 @@ export default function App() {
       <ImageContainer>
         <ImageViewer source={displayedImage} />
       </ImageContainer>
-      {!showAppOptions ? (
+      {showAppOptions ? (
         <DrawerContainer>
           <IconButton iconName="refresh" label="Reset" onPress={onReset} />
           <CircleButton iconName="add" onPress={onAddSticker} />
