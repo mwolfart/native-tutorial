@@ -1,10 +1,29 @@
 import { StatusBar } from 'expo-status-bar'
-import { ImageSourcePropType, StyleSheet, View } from 'react-native'
+import { ImageSourcePropType, View } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import ImageViewer from './components/ImageViewer'
 import Button from './components/Button'
 import PlaceholderImage from './assets/images/background-image.png'
 import { useState } from 'react'
+import styled from 'styled-components/native'
+
+const Container = styled.View`
+  display: flex;
+  width: 100%;
+  background-color: #25292e;
+  align-items: center;
+`
+
+const ImageContainer = styled.View`
+  flex-grow: 1;
+  padding-top: 58px;
+`
+
+const FooterContainer = styled.View`
+  flex-basis: 33%;
+  padding-block: 24px;
+  align-items: center;
+`
 
 export default function App() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
@@ -25,14 +44,14 @@ export default function App() {
     PlaceholderImage) as ImageSourcePropType
 
   return (
-    <View style={styles.container}>
-      <View style={styles.imageContainer}>
+    <Container>
+      <ImageContainer>
         <ImageViewer source={displayedImage} />
-      </View>
+      </ImageContainer>
       {showAppOptions ? (
         <View />
       ) : (
-        <View style={styles.footerContainer}>
+        <FooterContainer>
           <Button
             label="Choose a photo"
             onPress={onPickImage}
@@ -43,25 +62,10 @@ export default function App() {
             label="Use this photo"
             onPress={() => setShowAppOptions(true)}
           />
-        </View>
+          <Button iconName="plus" onPress={() => {}} variant="circle" />
+        </FooterContainer>
       )}
       <StatusBar style="auto" />
-    </View>
+    </Container>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#25292e',
-    alignItems: 'center',
-  },
-  imageContainer: {
-    flex: 1,
-    paddingTop: 58,
-  },
-  footerContainer: {
-    flex: 1 / 3,
-    alignItems: 'center',
-  },
-})
