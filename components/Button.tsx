@@ -1,5 +1,6 @@
-import { StyleSheet, View, Pressable, Text } from 'react-native'
+// import { StyleSheet, View, Pressable, Text } from 'react-native'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import styled from 'styled-components/native'
 import { FC } from 'react'
 
 type Props = {
@@ -9,59 +10,74 @@ type Props = {
   iconName?: keyof typeof FontAwesome.glyphMap
 }
 
+type StyledProps = { variant?: string }
+
+const Container = styled.View<StyledProps>`
+  width: 320px;
+  ${(props) =>
+    props.variant === 'primary' &&
+    `
+      border-width: 4px;
+      border-color: #ffd33d;
+      border-radius: 18px;
+      padding: 3px;
+    `}
+`
+
+const StyledPressable = styled.Pressable<StyledProps>`
+  border-radius: 10px;
+  padding: 24px;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 8px;
+  ${(props) => props.variant === 'primary' && `backgroundColor: #fff;`}
+`
+
+const StyledText = styled.Text<StyledProps>`
+  color: ${(props) => (props.variant === 'primary' ? '#25292e' : '#fff')};
+  font-size: 16px;
+`
+
+const StyledIcon = styled(FontAwesome)`
+  color: #25292e;
+  font-size: 18px;
+`
+
 const Button: FC<Props> = ({ label, onPress, variant, iconName }) => {
-  const isPrimary = variant === 'primary'
   return (
-    <View
-      style={[styles.buttonContainer, isPrimary && styles.primaryContainer]}
-    >
-      <Pressable
-        style={[styles.button, isPrimary && styles.primaryButton]}
-        onPress={onPress}
-      >
-        {iconName && <FontAwesome name={iconName} style={styles.buttonIcon} />}
-        <Text style={[styles.buttonLabel, isPrimary && styles.primaryLabel]}>
-          {label}
-        </Text>
-      </Pressable>
-    </View>
+    <Container variant={variant}>
+      <StyledPressable variant={variant} onPress={onPress}>
+        {iconName && <StyledIcon name={iconName} />}
+        <StyledText variant={variant}>{label}</StyledText>
+      </StyledPressable>
+    </Container>
   )
 }
 
 export default Button
 
-const styles = StyleSheet.create({
-  buttonContainer: {
-    width: 320,
-  },
-  primaryContainer: {
-    borderWidth: 4,
-    borderColor: '#ffd33d',
-    borderRadius: 18,
-    padding: 3,
-  },
-  button: {
-    borderRadius: 10,
-    padding: 24,
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    gap: 8,
-  },
-  primaryButton: {
-    backgroundColor: '#fff',
-  },
-  buttonIcon: {
-    color: '#25292e',
-    fontSize: 18,
-  },
-  buttonLabel: {
-    color: '#fff',
-    fontSize: 16,
-  },
-  primaryLabel: {
-    color: '#25292e',
-  },
-})
+// const styles = StyleSheet.create({
+//   primaryContainer: {
+//     borderWidth: 4,
+//     borderColor: '#ffd33d',
+//     borderRadius: 18,
+//     padding: 3,
+//   },
+//   primaryButton: {
+//     backgroundColor: '#fff',
+//   },
+//   buttonIcon: {
+//     color: '#25292e',
+//     fontSize: 18,
+//   },
+//   buttonLabel: {
+//     color: '#fff',
+//     fontSize: 16,
+//   },
+//   primaryLabel: {
+//     color: '#25292e',
+//   },
+// })
