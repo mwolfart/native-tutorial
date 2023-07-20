@@ -39,6 +39,7 @@ module.exports = {
         'react/display-name': ['off'],
         '@typescript-eslint/no-empty-function': ['off'],
         '@typescript-eslint/no-use-before-define': ['off'],
+        "@typescript-eslint/no-misused-promises": ['off'],
         "import/no-extraneous-dependencies": ['off'],
         "import/extensions": ["off"],
       }
