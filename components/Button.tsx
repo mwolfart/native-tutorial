@@ -1,10 +1,10 @@
-import { StyleSheet, View, Pressable, Text } from 'react-native';
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { FC } from 'react';
+import { StyleSheet, View, Pressable, Text } from 'react-native'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { FC } from 'react'
 
 type Props = {
   label: string
-  onPress: () => void,
+  onPress: () => void
   variant?: string
   iconName?: keyof typeof FontAwesome.glyphMap
 }
@@ -12,21 +12,23 @@ type Props = {
 const Button: FC<Props> = ({ label, onPress, variant, iconName }) => {
   const isPrimary = variant === 'primary'
   return (
-    <View style={ [styles.buttonContainer, isPrimary && styles.primaryContainer] }>
-      <Pressable style={ [styles.button, isPrimary && styles.primaryButton] } onPress={onPress}>
-        {iconName && (
-          <FontAwesome 
-            name={iconName}
-            style={styles.buttonIcon}
-          />
-        )}
-        <Text style={ [styles.buttonLabel, isPrimary && styles.primaryLabel] }>{label}</Text>
+    <View
+      style={[styles.buttonContainer, isPrimary && styles.primaryContainer]}
+    >
+      <Pressable
+        style={[styles.button, isPrimary && styles.primaryButton]}
+        onPress={onPress}
+      >
+        {iconName && <FontAwesome name={iconName} style={styles.buttonIcon} />}
+        <Text style={[styles.buttonLabel, isPrimary && styles.primaryLabel]}>
+          {label}
+        </Text>
       </Pressable>
     </View>
-  );
+  )
 }
 
-export default Button;
+export default Button
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -62,4 +64,4 @@ const styles = StyleSheet.create({
   primaryLabel: {
     color: '#25292e',
   },
-});
+})
