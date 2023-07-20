@@ -1,10 +1,10 @@
+import { FC } from 'react'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import styled from 'styled-components/native'
-import { FC } from 'react'
 
 type Props = {
+  label: string
   onPress: () => void
-  label?: string
   variant?: string
   iconName?: keyof typeof FontAwesome.glyphMap
 }
@@ -12,31 +12,19 @@ type Props = {
 type StyledProps = { variant?: string }
 
 const Container = styled.View<StyledProps>`
+  width: 320px;
   ${({ variant }) =>
-    variant === 'primary'
-      ? `
-        width: 320px;
-        border-width: 4px;
-        border-color: #ffd33d;
-        border-radius: 18px;
-        padding: 3px;
-      `
-      : variant === 'circle'
-      ? `
-        width: auto;
-        aspect-ratio: 1;
-        border-width: 4px;
-        border-color: #ffd33d;
-        border-radius: 100%;
-        padding: 3px;
-      `
-      : `
-        width: 320px;
-      `}
+    variant === 'primary' &&
+    `
+      border-width: 4px;
+      border-color: #ffd33d;
+      border-radius: 18px;
+      padding: 3px;
+    `}
 `
 
 const StyledPressable = styled.Pressable<StyledProps>`
-  border-radius: ${({ variant }) => (variant === 'circle' ? '100%' : '10px')};
+  border-radius: 10px;
   padding: 24px;
   width: 100%;
   height: 100%;
@@ -44,13 +32,11 @@ const StyledPressable = styled.Pressable<StyledProps>`
   justify-content: center;
   flex-direction: row;
   gap: 8px;
-  ${({ variant }) =>
-    (variant === 'primary' || variant === 'circle') && `backgroundColor: #fff;`}
+  ${({ variant }) => variant === 'primary' && `backgroundColor: #fff;`}
 `
 
 const StyledText = styled.Text<StyledProps>`
-  color: ${({ variant }) =>
-    variant === 'primary' || variant === 'circle' ? '#25292e' : '#fff'};
+  color: ${({ variant }) => (variant === 'primary' ? '#25292e' : '#fff')};
   font-size: 16px;
 `
 
@@ -64,7 +50,7 @@ const Button: FC<Props> = ({ label, onPress, variant, iconName }) => {
     <Container variant={variant}>
       <StyledPressable variant={variant} onPress={onPress}>
         {iconName && <StyledIcon name={iconName} />}
-        {label && <StyledText variant={variant}>{label}</StyledText>}
+        <StyledText variant={variant}>{label}</StyledText>
       </StyledPressable>
     </Container>
   )
