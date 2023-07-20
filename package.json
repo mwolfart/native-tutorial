@@ -8,7 +8,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "tsc --noEmit && eslint --ext .js,.jsx,.ts,.tsx ./",
-    "prettier": "npx prettier **/*.{js,jsx,ts,tsx} && npx prettier *.{js,jsx,ts,tsx}",
+    "prettier": "npx prettier --check **/*.{js,jsx,ts,tsx} && npx prettier --check *.{js,jsx,ts,tsx}",
     "prettier:write": "npx prettier --write **/*.{js,jsx,ts,tsx} && npx prettier --write *.{js,jsx,ts,tsx}"
   },
   "dependencies": {
@@ -26,15 +26,19 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@react-native-community/eslint-config": "^3.2.0",
     "@tsconfig/react-native": "^3.0.2",
     "@types/jest": "^29.5.3",
     "@types/react-test-renderer": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
+    "@typescript-eslint/parser": "^6.1.0",
     "eslint": "^8.45.0",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jest": "^27.2.3",
     "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react": "^7.32.2",
     "prettier": "^3.0.0"
   },

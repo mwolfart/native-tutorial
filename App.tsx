@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, View } from 'react-native'
+import { ImageSourcePropType, StyleSheet, View } from 'react-native'
 import ImageViewer from './components/ImageViewer'
 import Button from './components/Button'
 import PlaceholderImage from './assets/images/background-image.png'
@@ -8,7 +8,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <ImageViewer source={PlaceholderImage} />
+        <ImageViewer source={PlaceholderImage as ImageSourcePropType} />
       </View>
       <View style={styles.footerContainer}>
         <Button
