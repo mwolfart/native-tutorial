@@ -1,12 +1,15 @@
 import { FC } from 'react'
-import { TapGestureHandler } from 'react-native-gesture-handler'
+import {
+  PanGestureHandler,
+  TapGestureHandler,
+} from 'react-native-gesture-handler'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   useAnimatedGestureHandler,
   withSpring,
 } from 'react-native-reanimated'
-import { Image, ImageSourcePropType } from 'react-native'
+import { Image, ImageSourcePropType, View } from 'react-native'
 import styled from 'styled-components/native'
 
 type Props = {
@@ -14,14 +17,17 @@ type Props = {
   stickerSource: ImageSourcePropType
 }
 
-const Container = styled.View`
+const AnimatedView = Animated.createAnimatedComponent(View)
+const AnimatedImage = Animated.createAnimatedComponent(Image)
+
+const Container = styled(AnimatedView)`
   top: -350px;
 `
 
-const AnimatedImage = Animated.createAnimatedComponent(Image)
-
 const EmojiSticker: FC<Props> = ({ imageSize, stickerSource }) => {
   const scaleImage = useSharedValue(imageSize)
+  const translateX = useSharedValue(0)
+  const translateY = useSharedValue(0)
 
   const onDoubleTap = useAnimatedGestureHandler({
     onActive: () => {
@@ -37,6 +43,17 @@ const EmojiSticker: FC<Props> = ({ imageSize, stickerSource }) => {
       height: withSpring(scaleImage.value),
     }
   })
+
+  //   const onDrag = useAnimatedGestureHandler({
+  //     onStart: (event, context) => {
+  //       context.translateX = translateX.value
+  //       context.translateY = translateY.value
+  //     },
+  //     onActive: (event, context) => {
+  //       translateX.value = event.translationX + context.translateX
+  //       translateY.value = event.translationY + context.translateY
+  //     },
+  //   })
 
   return (
     <Container>
