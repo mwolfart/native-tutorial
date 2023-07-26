@@ -11,8 +11,9 @@ import PlaceholderImage from './assets/images/background-image.png'
 import EmojiPicker from './components/EmojiPicker'
 import EmojiList from './components/EmojiList'
 import EmojiSticker from './components/EmojiSticker'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
-const Container = styled.View`
+const Container = styled(GestureHandlerRootView)`
   display: flex;
   width: 100%;
   background-color: #25292e;
