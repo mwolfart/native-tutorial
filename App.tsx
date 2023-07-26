@@ -8,6 +8,9 @@ import Button from './components/buttons/Default'
 import CircleButton from './components/buttons/Circle'
 import IconButton from './components/buttons/Icon'
 import PlaceholderImage from './assets/images/background-image.png'
+import EmojiPicker from './components/EmojiPicker'
+import EmojiList from './components/EmojiList'
+import EmojiSticker from './components/EmojiSticker'
 
 const Container = styled.View`
   display: flex;
@@ -38,6 +41,8 @@ const DrawerContainer = styled.View`
 export default function App() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [showAppOptions, setShowAppOptions] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [pickedEmoji, setPickedEmoji] = useState(null)
 
   const onPickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -52,14 +57,20 @@ export default function App() {
 
   const onReset = () => {
     setShowAppOptions(false)
-  }
-
-  const onAddSticker = () => {
-    // we will implement this later
+    setPickedEmoji(null)
+    setSelectedImage(null)
   }
 
   const onSaveImageAsync = async () => {
     // we will implement this later
+  }
+
+  const onAddSticker = () => {
+    setIsModalVisible(true)
+  }
+
+  const onModalClose = () => {
+    setIsModalVisible(false)
   }
 
   const displayedImage = (selectedImage ??
@@ -67,8 +78,14 @@ export default function App() {
 
   return (
     <Container>
+      <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
+        <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
+      </EmojiPicker>
       <ImageContainer>
         <ImageViewer source={displayedImage} />
+        {pickedEmoji !== null ? (
+          <EmojiSticker imageSize={40} stickerSource={pickedEmoji} />
+        ) : null}
       </ImageContainer>
       {showAppOptions ? (
         <DrawerContainer>
