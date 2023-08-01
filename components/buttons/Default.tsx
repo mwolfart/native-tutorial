@@ -13,6 +13,7 @@ type StyledProps = { variant?: string }
 
 const Container = styled.View<StyledProps>`
   width: 320px;
+  max-height: 96px;
   ${({ variant }) =>
     variant === 'primary' &&
     `

@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { ImageSourcePropType } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import styled from 'styled-components/native'
 import ImageViewer from './components/ImageViewer'
@@ -12,28 +11,31 @@ import EmojiPicker from './components/EmojiPicker'
 import EmojiList from './components/EmojiList'
 import EmojiSticker from './components/EmojiSticker'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { ImageSourcePropType } from 'react-native'
 
 const Container = styled(GestureHandlerRootView)`
   display: flex;
   width: 100%;
+  height: 100%;
   background-color: #25292e;
   align-items: center;
+  justify-content: center;
 `
 
 const ImageContainer = styled.View`
-  flex-grow: 1;
-  padding-top: 58px;
+  flex-basis: 67%;
+  padding: 24% 0;
 `
 
 const FooterContainer = styled.View`
+  padding: 24px 0;
   flex-basis: 33%;
-  padding-block: 24px;
   align-items: center;
 `
 
 const DrawerContainer = styled.View`
-  position: absolute;
-  bottom: 80px;
+  padding: 24px 0;
+  flex-basis: 33%;
   gap: 48px;
   flex-direction: row;
   align-items: center;
@@ -74,8 +76,9 @@ export default function App() {
     setIsModalVisible(false)
   }
 
-  const displayedImage = (selectedImage ??
-    PlaceholderImage) as ImageSourcePropType
+  const displayedImage = selectedImage
+    ? { uri: selectedImage }
+    : (PlaceholderImage as ImageSourcePropType)
 
   return (
     <Container>

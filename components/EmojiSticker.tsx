@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import {
   PanGestureHandler,
+  PanGestureHandlerGestureEvent,
   TapGestureHandler,
 } from 'react-native-gesture-handler'
 import Animated, {
@@ -10,30 +11,52 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated'
 import { Image, ImageSourcePropType, View } from 'react-native'
-import styled from 'styled-components/native'
 
 type Props = {
   imageSize: number
   stickerSource: ImageSourcePropType
 }
 
+type PanGestureContextType = {
+  translateX: number
+  translateY: number
+}
+
 const AnimatedView = Animated.createAnimatedComponent(View)
 const AnimatedImage = Animated.createAnimatedComponent(Image)
-
-const Container = styled(AnimatedView)`
-  top: -350px;
-`
 
 const EmojiSticker: FC<Props> = ({ imageSize, stickerSource }) => {
   const scaleImage = useSharedValue(imageSize)
   const translateX = useSharedValue(0)
-  const translateY = useSharedValue(0)
+  const translateY = useSharedValue(-350)
 
   const onDoubleTap = useAnimatedGestureHandler({
+    onStart: () => {
+      console.log('Startttt')
+    },
     onActive: () => {
       if (scaleImage.value !== imageSize * 2) {
         scaleImage.value = scaleImage.value * 2
       }
+    },
+  })
+
+  const onDrag = useAnimatedGestureHandler<
+    PanGestureHandlerGestureEvent,
+    PanGestureContextType
+  >({
+    onStart: (_, context) => {
+      console.log('Start')
+      context.translateX = translateX.value
+      context.translateY = translateY.value
+    },
+    onActive: (event, context) => {
+      console.log('Active')
+      translateX.value = event.translationX + context.translateX
+      translateY.value = event.translationY + context.translateY
+    },
+    onEnd: () => {
+      console.log('End')
     },
   })
 
@@ -44,28 +67,30 @@ const EmojiSticker: FC<Props> = ({ imageSize, stickerSource }) => {
     }
   })
 
-  //   const onDrag = useAnimatedGestureHandler({
-  //     onStart: (event, context) => {
-  //       context.translateX = translateX.value
-  //       context.translateY = translateY.value
-  //     },
-  //     onActive: (event, context) => {
-  //       translateX.value = event.translationX + context.translateX
-  //       translateY.value = event.translationY + context.translateY
-  //     },
-  //   })
+  const containerStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: translateX.value },
+        { translateY: translateY.value },
+      ],
+    }
+  })
 
   return (
-    <Container>
-      <TapGestureHandler onGestureEvent={onDoubleTap as never} numberOfTaps={2}>
-        <AnimatedImage
-          source={stickerSource}
-          resizeMode="contain"
-          style={[imageStyle]}
-          //   style={{ width: imageSize, height: imageSize }}
-        />
-      </TapGestureHandler>
-    </Container>
+    <PanGestureHandler onGestureEvent={onDrag}>
+      <AnimatedView style={containerStyle}>
+        <TapGestureHandler
+          onGestureEvent={onDoubleTap as never}
+          numberOfTaps={2}
+        >
+          <AnimatedImage
+            source={stickerSource}
+            resizeMode="contain"
+            style={[imageStyle]}
+          />
+        </TapGestureHandler>
+      </AnimatedView>
+    </PanGestureHandler>
   )
 }
 

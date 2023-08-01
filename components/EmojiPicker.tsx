@@ -31,7 +31,7 @@ const TitleContainer = styled.View`
 
 const Title = styled.Text`
   color: #fff;
-  fontsize: 16;
+  font-size: 16px;
 `
 
 const EmojiPicker: FC<Props> = ({ isVisible, children, onClose }) => {
