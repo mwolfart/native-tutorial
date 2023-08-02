@@ -23,22 +23,19 @@ const Container = styled(GestureHandlerRootView)`
   background-color: #25292e;
   align-items: center;
   justify-content: center;
+  gap: 64px;
 `
 
 const ImageContainer = styled.View`
-  flex-basis: 67%;
-  justify-content: center;
+  position: relative;
 `
 
 const FooterContainer = styled.View`
-  padding: 24px 0;
-  flex-basis: 33%;
-  align-items: center;
+  height: 160px;
 `
 
 const DrawerContainer = styled.View`
   padding: 24px 0;
-  flex-basis: 33%;
   gap: 48px;
   flex-direction: row;
   align-items: center;
@@ -48,7 +45,7 @@ export default function App() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [showAppOptions, setShowAppOptions] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [pickedEmoji, setPickedEmoji] = useState(null)
+  const [emojiList, setEmojiList] = useState([])
   const imageRef = useRef<View>(null)
 
   const [status, requestPermission] = MediaLibrary.usePermissions()
@@ -70,7 +67,7 @@ export default function App() {
 
   const onReset = () => {
     setShowAppOptions(false)
-    setPickedEmoji(null)
+    setEmojiList([])
     setSelectedImage(null)
   }
 
@@ -115,6 +112,12 @@ export default function App() {
     setIsModalVisible(false)
   }
 
+  const appendEmoji = (emoji: never) => {
+    const newEmojiList = emojiList
+    newEmojiList.push(emoji)
+    setEmojiList(newEmojiList)
+  }
+
   const displayedImage = selectedImage
     ? { uri: selectedImage }
     : (PlaceholderImage as ImageSourcePropType)
@@ -122,40 +125,40 @@ export default function App() {
   return (
     <Container>
       <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
-        <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
+        <EmojiList onSelect={appendEmoji} onCloseModal={onModalClose} />
       </EmojiPicker>
-      <ImageContainer>
-        <View ref={imageRef} collapsable={false}>
-          <ImageViewer source={displayedImage} />
-          {pickedEmoji !== null ? (
-            <EmojiSticker imageSize={40} stickerSource={pickedEmoji} />
-          ) : null}
-        </View>
+      <ImageContainer ref={imageRef} collapsable={false}>
+        <ImageViewer source={displayedImage} />
+        {emojiList.map((emoji, idx) => (
+          <EmojiSticker imageSize={40} stickerSource={emoji} key={idx} />
+        ))}
       </ImageContainer>
-      {showAppOptions ? (
-        <DrawerContainer>
-          <IconButton iconName="refresh" label="Reset" onPress={onReset} />
-          <CircleButton iconName="add" onPress={onAddSticker} />
-          <IconButton
-            iconName="save-alt"
-            label="Save"
-            onPress={onSaveImageAsync}
-          />
-        </DrawerContainer>
-      ) : (
-        <FooterContainer>
-          <Button
-            label="Choose a photo"
-            onPress={onPickImage}
-            variant="primary"
-            iconName="picture-o"
-          />
-          <Button
-            label="Use this photo"
-            onPress={() => setShowAppOptions(true)}
-          />
-        </FooterContainer>
-      )}
+      <FooterContainer>
+        {showAppOptions ? (
+          <DrawerContainer>
+            <IconButton iconName="refresh" label="Reset" onPress={onReset} />
+            <CircleButton iconName="add" onPress={onAddSticker} />
+            <IconButton
+              iconName="save-alt"
+              label="Save"
+              onPress={onSaveImageAsync}
+            />
+          </DrawerContainer>
+        ) : (
+          <View>
+            <Button
+              label="Choose a photo"
+              onPress={onPickImage}
+              variant="primary"
+              iconName="picture-o"
+            />
+            <Button
+              label="Use this photo"
+              onPress={() => setShowAppOptions(true)}
+            />
+          </View>
+        )}
+      </FooterContainer>
       <StatusBar style="light" />
     </Container>
   )

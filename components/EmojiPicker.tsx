@@ -23,7 +23,7 @@ const TitleContainer = styled.View`
   background-color: #464c55;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
-  padding-inline: 20px;
+  padding: 0 20px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;

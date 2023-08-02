@@ -10,7 +10,8 @@ import Animated, {
   useAnimatedGestureHandler,
   withSpring,
 } from 'react-native-reanimated'
-import { Image, ImageSourcePropType, View } from 'react-native'
+import { Image, ImageSourcePropType } from 'react-native'
+import styled from 'styled-components/native'
 
 type Props = {
   imageSize: number
@@ -22,7 +23,13 @@ type PanGestureContextType = {
   translateY: number
 }
 
-const AnimatedView = Animated.createAnimatedComponent(View)
+const StyledView = styled.View`
+  position: absolute;
+  left: 0;
+  bottom: 0;
+`
+
+const AnimatedView = Animated.createAnimatedComponent(StyledView)
 const AnimatedImage = Animated.createAnimatedComponent(Image)
 
 const EmojiSticker: FC<Props> = ({ imageSize, stickerSource }) => {
@@ -34,6 +41,8 @@ const EmojiSticker: FC<Props> = ({ imageSize, stickerSource }) => {
     onActive: () => {
       if (scaleImage.value !== imageSize * 2) {
         scaleImage.value = scaleImage.value * 2
+      } else {
+        scaleImage.value = scaleImage.value / 2
       }
     },
   })
