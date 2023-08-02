@@ -40,6 +40,10 @@ module.exports = {
         '@typescript-eslint/no-empty-function': ['off'],
         '@typescript-eslint/no-use-before-define': ['off'],
         "@typescript-eslint/no-misused-promises": ['off'],
+        "@typescript-eslint/no-floating-promises": ['off'],
+        "@typescript-eslint/no-unsafe-member-access": ['off'],
+        "@typescript-eslint/no-unsafe-call": ['off'],
+        "@typescript-eslint/no-unsafe-assignment": ['off'],
         "import/no-extraneous-dependencies": ['off'],
         "import/extensions": ["off"],
       }
