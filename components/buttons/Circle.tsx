@@ -12,12 +12,12 @@ const Container = styled.View`
   aspect-ratio: 1;
   border-width: 4px;
   border-color: #ffd33d;
-  border-radius: 100%;
+  border-radius: 64px;
   padding: 3px;
 `
 
 const StyledPressable = styled.Pressable`
-  border-radius: 100%;
+  border-radius: 64px;
   padding: 16px;
   width: 100%;
   height: 100%;

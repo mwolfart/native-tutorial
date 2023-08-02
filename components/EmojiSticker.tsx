@@ -31,9 +31,6 @@ const EmojiSticker: FC<Props> = ({ imageSize, stickerSource }) => {
   const translateY = useSharedValue(-350)
 
   const onDoubleTap = useAnimatedGestureHandler({
-    onStart: () => {
-      console.log('Startttt')
-    },
     onActive: () => {
       if (scaleImage.value !== imageSize * 2) {
         scaleImage.value = scaleImage.value * 2
@@ -46,17 +43,12 @@ const EmojiSticker: FC<Props> = ({ imageSize, stickerSource }) => {
     PanGestureContextType
   >({
     onStart: (_, context) => {
-      console.log('Start')
       context.translateX = translateX.value
       context.translateY = translateY.value
     },
     onActive: (event, context) => {
-      console.log('Active')
       translateX.value = event.translationX + context.translateX
       translateY.value = event.translationY + context.translateY
-    },
-    onEnd: () => {
-      console.log('End')
     },
   })
 
